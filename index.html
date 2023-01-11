@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOSHA</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1047/1047503.png">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://www.unpkg.com/spltjs@1.1.0"></script>
+    <link rel="stylesheet" href="font.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.148.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.148.0/examples/jsm/",
+            "events" : "https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js",
+            "lil-gui": "https://lil-gui.georgealways.com/dist/lil-gui.esm.min.js"
+          }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="mosha">
+        <canvas class="mosha-canvas"></canvas>
+    </div>
+    <!---find mosha icon, control text size n font, want hover?--->
+    <div class="nav" cell>
+
+        <table cellspacing="0" text-align="center" height="50" width="100%" style="text-align: center; padding: 20px;">
+            <td style="width: 5%;">
+                <a href="homepage.html" style="color: black; text-decoration-line: underline;">Home</a>
+            </td>
+            <td style="width: 5%;">
+                <a href="menu.html" style="color: black; text-decoration-line: none;">Menu</a>
+            </td>
+            <td style="width: 7%;">
+                <a href="order.html" style="color: black; text-decoration-line: none;">My Order</a>
+            </td>
+
+ 
+            <td></td>
+            <td style="width: 7%;">
+                <a href="aboutus.html" style="color: black; text-decoration-line: none;">About Us</a>
+            </td>
+            <td style="width: 5%;">
+                <a href="#"><img alt="Youtube" src="pictures/moshalogo.png" style="width: 75%;"></img></a>
+            </td>
+
+        </table>
+
+    </div>
+
+
+    <!---control text size n font, add vertical line, find background image, button style--->
+
+    <!-- style=" background-image: linear-gradient(#FFC091, #A34803); height: 40%; padding-bottom: 20px;" -->
+    <div 
+        class="mainbody"
+    >
+        <h1 style="color: #000425;" class="hero-title splt">IIUM Students</h1>
+        <h1 style="color: #fe0103" class="hero-title splt">Favourite</h1>
+        <h1 style="color: #000425;" class="hero-title splt">Coffee Drink</h1>
+        
+        <div class="description-container" style="overflow: hidden;">
+            <p class="description">
+                Take a sip of our coffee <br>
+                after a <span style="color: #d30b0b;">looooong packed schedule</span> <br>
+                and <span style="color: #d30b0b;">piles of assignment</span>
+            </p>
+        </div>
+
+        <!-- onclick="window.open('https:\/\/forms.gle/2hPfz8Joc9GV4LH49', '_blank')" -->
+
+        <div class="btn-container" style="overflow: hidden;">            
+            <button 
+                class="cta-btn"
+                onclick="window.location.replace('menu.html')"
+            >
+                <span></span>
+                Order Now
+            </button>
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+
+    <div class="flex-container">
+        <div style="width: 33%; text-align:right; font-size: 22px; line-height: 27px; padding-top: 2%;">Follow Us On
+        </div>
+        <div style="width: 33%; text-align:center;">
+
+            <div class="icons">
+                <a href="https://www.instagram.com/gengmosha_/?hl=en"><img alt="Instagram" src="pictures/instagram.png"
+                        style="width: 10%;"></img></a>
+                <a href="https://www.facebook.com/BaristaMosha"><img alt="Facebook" src="pictures/facebook.png"
+                        style="width: 10%;"></img></a>
+                <a href="https://twitter.com/gengmosha_?lang=en"><img alt="Twitter" src="pictures/twitter.png"
+                        style="width: 10%;"></img></a>
+                <a href="#"><img alt="Youtube" src="pictures/Youtube.png" style="width: 10%;"></img></a>
+            </div>
+
+        </div>
+        <div style="width: 33%; text-align:left; font-size: 16px; line-height: 19px; padding-top: 2%;">#GengMosha
+            #KitaKanGeng</div>
+    </div>
+
+    <script type="module" src="/scripts/main.js"></script>
+    <script type="module" src="/scripts/GLTFLoader.js"></script>
+</body>
+
+</html>

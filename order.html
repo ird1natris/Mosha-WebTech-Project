@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Order</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1047/1047503.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.prod.js"></script>
+    <link rel="stylesheet" href="/styles/order.css">
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <div class="nav" cell>
+
+            <table cellspacing="0" text-align="center" height="50" width="100%" style="text-align: center; padding: 20px;">
+                <td style="width: 5%;">
+                    <a href="index.html" style="color: black; text-decoration-line: none;">Home</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="menu.html" style="color: black; text-decoration-line: none;">Menu</a>
+                </td>
+                <td style="width: 7%; position: relative;">
+                    <a href="order.html" style="color: black; text-decoration-line: underline;">My Order</a>
+                    <div v-if="userCart?.length !== 0 ?? false" style="color: #fff;text-align: center; border-radius: 14px; top: 0; right: 0; position: absolute; letter-spacing: 0; font-size: 12px; width: 24px; height: 24px; background-color: red; display: flex; justify-content: center; align-items: center;">
+                        {{ userCart?.length ?? 0 }}
+                    </div>
+                </td>
+    
+    
+                <td></td>
+                <td style="width: 7%;">
+                    <a href="aboutus.html" style="color: black; text-decoration-line: none;">About Us</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="#"><img alt="Youtube" src="pictures/moshalogo.png" style="width: 75%;"></img></a>
+                </td>
+    
+            </table>
+    
+        </div>
+
+        <div class="main-container">
+
+            <div class="left-main-container">
+                <div class="heading">
+                    <h1 style="letter-spacing: 0.025em; flex-grow: 1;">
+                        My Orders
+                    </h1>
+                    <div style="border-radius: 12px; padding: 12px; display: inline; text-align: right;">
+                        <button class="add-more-btn" onclick="window.location.replace('menu.html')">
+                            <span>
+                                <!-- Nothing -->
+                            </span>
+                            Add More
+                        </button>
+                    </div>
+                </div>
+                <div class="left">
+                    <div class="order-list">
+                        <p 
+                            style="text-align: center; letter-spacing: 0.025em;"
+                            v-if="userCart?.length === 0 || true"
+                        >
+                            You have no item in your cart. Add one now!
+                        </p>
+                        <div class="order-item" v-for="item in userCart">
+                            <img :src="item.imageUrl" alt="" style="margin-right: 12px; height: 220px;">
+                            <div class="drink-info" style="display: flex; flex-direction: column; height: 100%;">
+                                <h1 style="margin-bottom: 12px;">
+                                    {{ item.name }}
+                                </h1>
+                                <div style="height: 120px;">
+                                    <p style="font-size: 18px; margin-bottom: 4px;">
+                                        {{ item.quantity }} pcs ({{ item.size }})
+                                    </p>
+                                    <p style="font-size: 18px; margin: 0; margin-bottom: 12px;" v-if="item.customization">
+                                        + {{ item.customization }}
+                                    </p>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div>
+                                        <h3 style="font-size: 18px; margin: 0; display: inline;">
+                                            RM {{ item.price?.toFixed(2) || 0.00 }}
+                                        </h3>
+                                        per unit
+                                    </div>
+                                    <h2 style="margin: 0;">
+                                        RM {{ (item.price * item.quantity).toFixed(2) }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <button class="icon-btn" @click="deleteItem(item)">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M7 21q-.825 0-1.412-.587Q5 19.825 5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413Q17.825 21 17 21ZM17 6H7v13h10ZM9 17h2V8H9Zm4 0h2V8h-2ZM7 6v13Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="form-item">
+                    <label for="">
+                        How would you like to collect you drinks?
+                    </label>
+                    <div style="display: flex; column-gap: 12px;">
+                        <button class="toggle-item" :class="{ 'toggle-item-active': deliveryType === 'takeaway' }" @click="deliveryType = 'takeaway'">
+                            <img src="/pictures/takeaway.png" alt="" style="height: 120px; object-fit: contain;">
+                            <p style="text-align: center;">Takeaway</p>
+                        </button>
+                        <button class="toggle-item" :class="{ 'toggle-item-active': deliveryType === 'delivery' }" @click="deliveryType = 'delivery'">
+                            <img src="/pictures/delivery.png" alt="" style="height: 120px; object-fit: contain;">
+                            <p style="text-align: center;">Delivery</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-item" style="flex-grow: 1;">
+                    <label for="" v-if="deliveryType">
+                        How would you like to pay?
+                    </label>
+                    <div style="display: flex; column-gap: 12px;" v-if="deliveryType === 'takeaway'">
+                        <button v-for="item in takeawayPaymentOptions" class="toggle-item" :class="{ 'toggle-item-active': paymentOption === item }" @click="setPaymentOption(item)">
+                            <p style="text-align: center;">
+                                {{ item }}
+                            </p>
+                        </button>
+                    </div>
+                    <div style="display: flex; column-gap: 12px;" v-else-if="deliveryType === 'delivery'">
+                        <button v-for="item in deliveryPaymentOptions" class="toggle-item" :class="{ 'toggle-item-active': paymentOption === item }" @click="setPaymentOption(item)">
+                            <p style="text-align: center;">
+                                {{ item }}
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label for="">
+                        Did you have any voucher code?
+                    </label>
+                    <input type="text" name="" id="" placeholder="MOSHA123">
+                </div>
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="left-price">
+                        <p style="margin: 0; margin-bottom: 8px;">Total Quantity</p>
+                        <h1 style="margin-top: 0;">
+                            {{ userCart?.reduce((acc, current) => acc + current.quantity, 0) ?? 0 }}
+                        </h1>
+                    </div>
+                    <div class="right-price">
+                        <p style="text-align: right; margin: 0; margin-bottom: 8px;">Grand Total</p>
+                        <h1 style="margin-top: 0;">
+                            RM {{ userCart?.reduce((acc, current) => acc + current.price * current.quantity, 0).toFixed(2) ?? (0).toFixed(2) }}
+                        </h1>
+                    </div>
+                </div>
+                <button class="action-btn" @click="this.$refs.orderDialog.showModal()">
+                    Confirm Order
+                </button>
+            </div>
+            <!-- {{ userCart }} -->
+        </div>
+    
+        <dialog id="formDialog" style="border-radius: 20px; border: none;" ref="orderDialog">
+            <form @submit="(e) => e.preventDefault()">
+                <h1 style="display: block;">My Order</h1>
+                <!-- Name input -->
+                <label for="name" style="font-size: 18px; margin-bottom: 8px;">Name</label><br>
+                <input type="text" id="name" name="name" placeholder=" ex: Kamelia" size="50"
+                    style="color: black; border-radius: 17px; display: block; width: 100%; margin-bottom: 4px;"
+                    @input="e => nameValidation(e.target.value)">
+                    <label class="error-text">
+                        {{ nameError }}
+                    </label>
+
+                <!-- Phone Number input -->
+                <label for="phonenum" style="font-size: 18px; margin-bottom: 8px;">Phone Number</label><br>
+                <input type="phonenum" id="phonenum" name="phonenum" placeholder=" ex : 01162080977" size="50"
+                    style="color: black; border-radius: 17px; display: block; width: 100%;margin-bottom: 4px;" 
+                    @input="e => phoneNumberValidation(e.target.value)">
+                    <label class="error-text">
+                        {{ phoneNumberError }}
+                    </label>
+                    <label for="address" style="font-size: 18px; margin-bottom: 8px;">Delivery Address</label><br>
+                <textarea id="description" 
+                    @input="e => address = e.target.value"    
+                name="description" rows="5" placeholder=" ex :
+                    Mahallah Aminah
+                    Block I " style="border-color: #ccc; border-radius: 17px; font-family: 'Inter', sans-serif; width: 100%; outline: none; resize: none; font-size: 16px; padding: 8px;"></textarea><br><br>
+                
+                    <!-- Time Input -->
+                <label for="time" style="font-size: 18px; margin-bottom: 8px;">
+                    Delivery Time (6 PM to 10PM only)
+                </label>
+                <input type="time" @input="e => { this.deliveryTime = e.target.value; }" min="18:00" max="22:00" id="time" name="time" style="margin-bottom: 8px; width: 100%;">
+                
+                <label for="file" style="font-size: 18px; margin-bottom: 8px;">Proof Of Payment</label><br>
+                <label for="file" style="width: 100%; border-color: #ccc; margin-bottom: 8px;" class="filebutton">+ Upload File</label>
+                
+                <!-- Receipt File Input -->
+                <div style="display: flex; column-gap: 6px;">
+                    <input type="file" id="file" name="file" @change="previewFiles" ref="receipt" style="flex-grow: 1;">
+                    <button 
+                        @click="resetFile"
+                        style="border-radius: 12px; background-color: transparent; border: 1px solid #ccc; font-family: 'Inter', sans-serif; cursor: pointer;">
+                        Clear
+                    </button> 
+                </div>
+                <label class="error-text" v-if="fileError">
+                    {{ fileError }}
+                </label>
+                <div style="display: flex; column-gap: 8px;">
+                    <button
+                        class="submit-btn outlined-button"
+                        @click="this.$refs.orderDialog.close()"
+                    >
+                        Close
+                    </button>
+                    <button
+                        class="submit-btn"
+                        @click="submitToAPI"
+                        :class="{ disabledButton: disableSubmit }"
+                        :disabled="disableSubmit"
+                        style="font-family: 'Inter', sans-serif; font-size: 16px;"
+                    >
+                        {{ disableSubmit ? 'Submitting...' : 'Order Now' }}
+                    </button>
+                </div>
+            </form>
+        </dialog>
+    </div>
+
+    <script>
+
+        const USERCARTKEY = 'user-cart'
+        const CURRENTDRINKKEY = 'user-current-drink'
+
+        const { createApp } = Vue
+
+        createApp({
+            data() {
+                return {
+                    userCart: JSON.parse(localStorage.getItem(USERCARTKEY)),
+                    deliveryType: '',
+                    paymentOption: '',
+                    deliveryPaymentOptions: [
+                        'Online Banking',
+                        'e-Wallet',
+                    ],
+                    takeawayPaymentOptions: [
+                        'Online Banking',
+                        'e-Wallet',
+                    ],
+                    nameError: '',
+                    phoneNumberError: '',
+                    fileError: '',
+                    receiptFile: null,
+                    name: '',
+                    phoneNumber: '',
+                    address: '',
+                    deliveryTime: '',
+                    disableSubmit: false,
+                }
+            },
+            methods: {
+                setPaymentOption(item) {
+                    this.paymentOption = item
+                },
+                deleteItem(item) {
+
+                    const _userCart = this.userCart.filter((_item) => _item.name !== item.name)
+
+                    this.userCart = _userCart
+
+                    // Save into local database
+                    window.localStorage.setItem(USERCARTKEY, JSON.stringify(_userCart))
+
+                },
+                nameValidation(value) {
+
+                    if (!value) return
+
+                    if (value.length === 0) {
+                        this.nameError = 'Please enter a name!'
+                    }
+                    else {
+                        this.name = value
+                        this.nameError = ''
+                    }            
+                },
+                phoneNumberValidation(value) {
+
+                    if (/^(\+?6?01)[02-46-9]-*[0-9]{7}$|^(\+?6?01)[1]-*[0-9]{8}$/.test(value)) {
+                        this.phoneNumberError = ''
+                        this.phoneNumber = value
+                    }
+                    else {
+                        this.phoneNumberError = 'Please enter a valid phone number!'
+                    }
+
+                },
+                previewFiles() {
+                    if (!this.$refs.receipt.files?.length === 0 ?? true) {
+                        this.fileError = 'Please attach a file!'
+                    }
+                    else {
+                        this.receiptFile = this.$refs.receipt.files[0]
+                        this.fileError = '' 
+                    }
+                },
+                resetFile() {
+                    this.$refs.receipt.value = null
+                    this.fileError = 'Please attach a file!'
+                },
+                submitToAPI() {
+
+                    if (!this.userCart) {
+                        alert('An error has occured. Please check your input')
+                        return
+                    }
+
+                    // console.log(this.userCart.map((item) => `${item.name} | ${item.quantity} | ${item.size} | ${item.customization} | RM ${item.price}`).join(', '));
+                    const myHeaders = new Headers();
+                    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                    const urlencoded = new URLSearchParams();
+                    urlencoded.append("name", this.name);
+                    urlencoded.append("phoneNumber", this.phoneNumber);
+                    urlencoded.append("orders", this.userCart.map((item) => `${item.name} | ${item.quantity} | ${item.size} | ${item.customization} | RM ${item.price}`).join('\n'));
+                    urlencoded.append("address", this.address);
+                    urlencoded.append("deliveryHour", this.deliveryTime.split(':')[0]);
+                    urlencoded.append("deliveryMinute", this.deliveryTime.split(':')[1]);
+
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: myHeaders,
+                        body: urlencoded,
+                    };
+
+                    const url = 'https://eood7etop88bxw5.m.pipedream.net'
+
+                    this.disableSubmit = true
+
+                    fetch(url, requestOptions)
+                        .then(response => response.text())
+                        .then(result => {
+                            console.log(result)
+                            this.$refs.orderDialog.close()
+                            return
+                        })
+                        .then(() => {
+                            window.localStorage.clear()
+                            window.location.reload()
+                        })
+                        .catch(error => {
+                            console.log('error', error)
+                            alert('An error has occured. Please check your input')
+                        })
+                        .finally(() => {
+                            this.disableSubmit = false
+                        })
+                }
+            }
+        }).mount('#app')
+
+    </script>
+
+    <!-- <script>
+        function openPopup() {
+            // Open a new window with the form
+            var popupWindow = window.open("", "Form", "height=500,width=500");
+        }
+
+        // Get the button and dialog elements
+        var openButton = document.getElementById("openButton");
+        var formDialog = document.getElementById("formDialog");
+
+        // Attach a function to the button click event
+        openButton.addEventListener("click", function () {
+            // Show the dialog
+            formDialog.showModal();
+        });
+    </script> -->
+
+</body>
+
+</html>

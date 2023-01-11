@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1047/1047503.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.prod.js"></script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            letter-spacing: 0.21em;
+            margin: 0;
+        }
+
+        .flex-container {
+            display: flex;
+
+        }
+
+        .flex-container>div {
+            margin: 10px;
+            padding: 20px;
+            font-size: 30px;
+        }
+        .add-btn {
+            background-color: transparent;
+            padding: 12px;
+            padding-inline: 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            border: 1px solid #fff;
+            color: #fff;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            background-color: #555;
+        }
+        .add-btn:active {
+            background-color: #fff;
+            color: #000;
+        }
+        [v-cloak] {
+            display: none;
+        }
+        .button {
+            border-width: 0;
+            background-color: white;
+            font-size: 22px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .main-container {
+            display: flex;
+            width: 90vw;
+            margin: 48px;
+            margin-inline: auto;
+            column-gap: 24px;
+            justify-content: space-evenly;
+        }
+        .main-container .left {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            row-gap: 2px;
+            width: 320px;
+        }
+        .main-container .right {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .right .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            row-gap: 24px;
+            column-gap: 24px;
+            width: 100%;
+            place-items: center;
+        }
+        .product {
+            background-color: #F0F0F0;
+            text-align: center;
+            width: 280px;
+            height: fit-content;
+        }
+        .gambar {
+            /* border: 1px solid #000; */
+            height: 350px;
+        }
+        .gambar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .style {
+            background-color: #1E1E1E;
+            color: white;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .style a {
+            color: white;
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 500;
+            line-height: 1.25;
+        }
+        .style p {
+            margin: 0;
+            letter-spacing: 0.025em;
+            font-size: 18px;
+        }
+        .category-selected {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .searchbar {
+            padding: 12px;
+            margin-bottom: 24px;
+            width: 500px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <div class="nav" cell>
+
+            <table cellspacing="0" text-align="center" height="50" width="100%" style="text-align: center; padding: 20px;">
+                <td style="width: 5%;">
+                    <a href="index.html" style="color: black; text-decoration-line: none;">Home</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="menu.html" style="color: black; text-decoration-line: underline;">Menu</a>
+                </td>
+                <td style="width: 7%; position: relative;">
+                    <a href="order.html" style="color: black; text-decoration-line: none;">My Order</a>
+                    <div v-if="userCart?.length !== 0 ?? 0" style="color: #fff;text-align: center; border-radius: 14px; top: 0; right: 0; position: absolute; letter-spacing: 0; font-size: 12px; width: 24px; height: 24px; background-color: red; display: flex; justify-content: center; align-items: center;">
+                        {{ userCart?.length ?? 0 }}
+                    </div>
+                </td>
+    
+    
+                <td></td>
+                <td style="width: 7%;">
+                    <a href="aboutus.html" style="color: black; text-decoration-line: none;">About Us</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="#"><img alt="Youtube" src="pictures/moshalogo.png" style="width: 75%;"></img></a>
+                </td>
+    
+            </table>
+    
+        </div>
+
+        <div class="main-container">
+            <div class="left">
+                <input 
+                    class="button"
+                    v-for="(category, index) in drinkCategories"
+                    type='button'
+                    id='btn'
+                    :value='category.name'
+                    :class="{ 'category-selected': category.selected }"
+                    @click="setSelectedCategory(category.category, index)"
+                >
+            </div>
+            <div class="right">
+                <input type="text" :value="searchText" @input="event => searchText = event.target.value" class="searchbar" name="" id="" placeholder="Search our drinks">
+                <div class="grid">
+                    <div class="product" v-for="drink in filteredDrinks">
+                        <div class="gambar">
+                            <img :src="drink.imageUrl">
+                        </div>
+                        <div class="style">
+                            <a @click="addToCart(drink)" href="#">{{ drink.name }}</a >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CURRENTDRINKKEY = 'user-current-drink'
+
+        const drinkCategories = [
+            {
+                name: 'All Products',
+                selected: true,
+                category: 'all'
+            },
+            {
+                name: 'Chocolate Based',
+                selected: false,
+                category: 'choco'
+            },
+            {
+                name: 'Coffee Based',
+                selected: false,
+                category: 'coffee'
+            },
+            {
+                name: 'Hybrid',
+                selected: false,
+                category: 'hybrid'
+            }
+        ]
+
+        const { createApp } = Vue
+
+        const USERCARTKEY = 'user-cart'
+
+        createApp({
+            data() {
+                return {
+                    userCart: JSON.parse(localStorage.getItem(USERCARTKEY)),
+                    drinks: [],
+                    filteredDrinks: [],
+                    selectedCategory: drinkCategories.find(item => item.selected),
+                    drinkCategories,
+                    searchText: ''
+                }
+            },
+            methods: {
+                addToCart(drink) {
+                    // Save user's cart into browser database
+                    localStorage.setItem(CURRENTDRINKKEY, JSON.stringify(drink))
+                    
+                    // Redirect to drink page
+                    window.location.replace('/drink.html')
+                },
+                setSelectedCategory(category, index) {
+                    const _drinkCategories = this.drinkCategories.map((item) => ({ ...item, selected: false }))
+                    _drinkCategories[index].selected = true
+                    this.drinkCategories = _drinkCategories
+                    this.filterDrinks(category)
+                },
+                filterDrinks(category) {
+
+                    if (category === 'all') {
+                        this.filteredDrinks = this.drinks
+                    }
+                    else {
+                        this.filteredDrinks = this.drinks.filter((item) => item.category === category)
+                    }
+
+                }
+            },
+            created() {
+
+                // Get drinks data from our own API!
+                fetch('/drinks.json')
+                    .then((res) => res.json())
+                    .then((data) => {
+                        this.filteredDrinks = data.drinks
+                        this.drinks = data.drinks
+                    })
+            },
+            watch: {
+                searchText(newSearch, oldSearch) {
+                    if (newSearch.length === 0) {
+                        this.filteredDrinks = this.drinks;
+                        return
+                    }
+                    this.filteredDrinks = this.drinks.filter((item) => item.name.toLowerCase().includes(newSearch.toLowerCase()))
+                }
+            }
+        }).mount('#app')
+
+    </script>
+</body>
+
+</html>

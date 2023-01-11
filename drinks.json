@@ -1,0 +1,59 @@
+{
+    "drinks": [
+        {
+            "imageUrl": "pictures/Hazelnut Chocolate.png",
+            "name": "Hazelnut Chocolate",
+            "category": "choco"
+        },
+        {
+            "imageUrl": "pictures/Vanilla chocolate.png",
+            "name": "Vanilla Chocolate",
+            "category": "choco"
+        },
+        {
+            "imageUrl": "pictures/Chocolate Indulgence.png",
+            "name": "Chocolate Indulgence",
+            "category": "choco"
+        },
+        {
+            "imageUrl": "pictures/Chocolate Magnum.png",
+            "name": "Chocolate Magnum",
+            "category": "choco"
+        },
+        {
+            "imageUrl": "pictures/Vapuccino Valcano.png",
+            "name": "Vappucino Volcano",
+            "category": "coffee"
+        },
+        {
+            "imageUrl": "pictures/Mochacino Mars.png",
+            "name": "Mochacino Mars",
+            "category": "coffee"
+        },
+        {
+            "imageUrl": "pictures/Terrific Mocha.png",
+            "name": "Terrific Mocha",
+            "category": "coffee"
+        },
+        {
+            "imageUrl": "pictures/Hazelnut Coffee.png",
+            "name": "Hazelnut Coffee",
+            "category": "coffee"
+        },
+        {
+            "imageUrl": "pictures/Cuppucino Creamor.png",
+            "name": "Cappucino Creamor",
+            "category": "hybrid"
+        },
+        {
+            "imageUrl": "pictures/Mocha Lazzo.png",
+            "name": "Mocha Lazzo",
+            "category": "hybrid"
+        },
+        {
+            "imageUrl": "pictures/Mocha Lazzo Caramel.png",
+            "name": "Mocha Lazzo Caramel",
+            "category": "hybrid"
+        }
+    ]
+}

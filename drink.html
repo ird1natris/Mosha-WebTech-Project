@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1047/1047503.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.prod.js"></script>
+    <link rel="stylesheet" href="styles/drink.css">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <div class="nav" cell>
+
+            <table cellspacing="0" text-align="center" height="50" width="100%"
+                style="text-align: center; padding: 20px;">
+                <td style="width: 5%;">
+                    <a href="index.html" style="color: black; text-decoration-line: none;">Home</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="menu.html" style="color: black; text-decoration-line: underline;">Menu</a>
+                </td>
+                <td style="width: 7%;">
+                    <a href="order.html" style="color: black; text-decoration-line: none;">My Order</a>
+                </td>
+
+
+                <td></td>
+                <td style="width: 7%;">
+                    <a href="aboutus.html" style="color: black; text-decoration-line: none;">About Us</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="#" style="color: black; text-decoration-line: none;">Mosha</a>
+                </td>
+                <td style="width: 5%;">
+                    <a href="#"><img alt="Youtube" src="pictures/moshalogo.png" style="width: 75%;"></img></a>
+                </td>
+
+            </table>
+
+        </div>
+
+        <div class="main-container">
+            <div class="subcontainer drinkitem-container">
+                <img style="height: 480px;" :src="currentDrink.imageUrl">
+                <div class="drinkitem-text">
+                    <h1 style="margin: 0;">{{ currentDrink.name }}</h1>
+                    <h2 style="margin: 0; margin-bottom: 16px;">
+                        RM {{ ((selectedSize && selectedCustomization) ? (selectedSize.price + selectedCustomization.price) : 0.00).toFixed(2) }}
+                    </h2>
+                    <p v-if="selectedSize" style="margin: 0; margin-bottom: 12px;">
+                        {{ selectedSize.size }} size ({{ 'RM' + selectedSize.price }})
+                    </p>
+                    <p v-if="selectedCustomization ? (selectedCustomization.name !== 'None') : false"  style="margin: 0;">
+                        {{ selectedCustomization.name + ' topping' }} ({{ '+ RM' + selectedCustomization.price }})
+                    </p>
+                </div>
+            </div>
+            <div class="subcontainer options-container">
+                <h3>Size Options</h3>
+                <div class="customize-container">
+                    <div class="custom-item" v-for="(item, index) of sizesAvailable" :key="item.id"
+                        :class="{ 'custom-item-active': item.selected }" @click="selectSize(index)">
+                        <h3 style="margin: 0;">{{ item.size }}</h3>
+                        <p style="margin: 0;">RM{{ item.price }}</p>
+                    </div>
+                </div>
+                <h3>Customisation</h3>
+                <div class="customize-container">
+                    <div class="custom-item" v-for="(item, index) of customizationAvailable" :key="item.id"
+                        :class="{ 'custom-item-active': item.selected }" @click="selectCustomization(index)">
+                        <h3 style="margin: 0;">{{ item.name }}</h3>
+                        <p style="margin: 0;">RM{{ item.price }}</p>
+                    </div>
+                </div>
+                <h3>Remarks</h3>
+                <textarea
+                    placeholder="Let us know if you have any special requests!"
+                    rows="6"
+                    class="remark-input"
+                ></textarea>
+                <div class="info-container">
+                    <div class="quantity">
+                        <h4 style="margin: 0; letter-spacing: 0; font-weight: 400;">Quantity</h4>
+                        <div style="display: flex; flex-direction: row-reverse; width: 100%; justify-content: space-evenly; align-items: center;">
+                            <button @click="quantity++" class="spinner-button">
+                                +
+                            </button>
+                            <p style="display: inline; margin: 0; font-weight: 700; font-size: 24px; letter-spacing: 0.025em; width: 48px; text-align: center;">
+                                {{ quantity }}
+                            </p>
+                            <button @click="() => { if (quantity > 1) {quantity--} }" class="spinner-button">
+                                -
+                            </button>
+                        </div>
+                    </div>
+                    <div class="price-container">
+                        <h4 style="margin: 0; letter-spacing: 0;font-weight: 400;">Grand Total</h4>
+                        <h2 style="margin: 0; letter-spacing: 0.025em;">RM {{ (((selectedSize && selectedCustomization) ? (selectedSize.price + selectedCustomization.price).toFixed(2) : 0.00) * quantity).toFixed(2) }}</h2>
+                    </div>
+                </div>
+                <div class="action-container">
+                    <button class="cart-button outlined-button" onclick="window.location.replace('menu.html')">
+                        Cancel Order
+                    </button>
+                    <button class="cart-button" style="flex-grow: 1;" @click="addToCart()">
+                        Add To My Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const USERCARTKEY = 'user-cart'
+        const CURRENTDRINKKEY = 'user-current-drink'
+
+        const {
+            createApp
+        } = Vue
+
+        createApp({
+            data() {
+                return {
+                    message: 'Hello Vue!',
+                    sizePrice: 0.00,
+                    customizationPrice: 0.00,
+                    sizesAvailable: [{
+                            id: 1,
+                            size: 'Small',
+                            price: 3,
+                            selected: false
+                        },
+                        {
+                            id: 2,
+                            size: 'Medium',
+                            price: 4,
+                            selected: false
+                        },
+                        {
+                            id: 3,
+                            size: 'Large',
+                            price: 5,
+                            selected: false
+                        }
+                    ],
+                    customizationAvailable: [{
+                            id: 3,
+                            name: 'None',
+                            price: 0,
+                            selected: false
+                        },
+                        {
+                            id: 1,
+                            name: 'Oreo',
+                            price: 1,
+                            selected: false
+                        },
+                        {
+                            id: 2,
+                            name: 'Chipsmore Crunch',
+                            price: 1,
+                            selected: false
+                        }
+                    ],
+                    selectedSize: null,
+                    selectedCustomization: null,
+                    unitPrice: 0.00,
+                    subTotal: 0.00,
+                    quantity: 1,
+                    currentDrink: JSON.parse(localStorage.getItem(CURRENTDRINKKEY)) || { name: '', imageUrl: '' }
+                }
+            },
+            methods: {
+                updateSizePrice(price) {
+                    this.sizePrice = parseFloat(price)
+                },
+                updateCustomizationPrice(price) {
+                    this.customizationPrice = parseFloat(price)
+                },
+                selectSize(id) {
+                    const tempList = this.sizesAvailable.map((item) => ({
+                        ...item,
+                        selected: false
+                    }))
+                    const selectedItem = {
+                        ...this.sizesAvailable[id],
+                        selected: true
+                    }
+                    tempList[id] = selectedItem
+                    this.selectedSize = selectedItem
+                    this.sizesAvailable = tempList
+                },
+                selectCustomization(id) {
+                    // Reset all item's selected flag to false
+                    const tempList = this.customizationAvailable.map((item) => ({
+                        ...item,
+                        selected: false
+                    }))
+
+                    // Change selectedItem selected flag to true
+                    const selectedItem = {
+                        ...this.customizationAvailable[id],
+                        selected: true
+                    }
+                    tempList[id] = selectedItem
+                    this.selectedCustomization = selectedItem
+                    this.customizationAvailable = tempList
+                },
+                addToCart() {
+
+                    const testItem = localStorage.getItem(USERCARTKEY)
+
+                    if (!testItem) {
+                        const userCart = []
+                        const drinks = {
+                            name: this.currentDrink.name,
+                            quantity: this.quantity,
+                            size: this.selectedSize.size,
+                            imageUrl: this.currentDrink.imageUrl,
+                            customization: this.selectedCustomization.name,
+                            price: this.selectedSize.price + this.selectedCustomization.price
+                        }
+
+                        userCart.push(drinks)
+
+                        localStorage.setItem(USERCARTKEY, JSON.stringify(userCart))
+                    }
+                    else {
+
+                        const userCart = JSON.parse(testItem)
+
+                        const drinkIndex = userCart.findIndex((item) => item.name === this.currentDrink.name)
+
+                        if (drinkIndex !== -1) {
+
+                            const newDrink = { ...userCart[drinkIndex], quantity: userCart[drinkIndex].quantity + 1 }
+
+                            userCart[drinkIndex] = newDrink
+
+                            localStorage.setItem(USERCARTKEY, JSON.stringify(userCart))
+
+                        }
+                        else {
+
+                            const drinks = {
+                                name: this.currentDrink.name,
+                                quantity: this.quantity,
+                                size: this.selectedSize.size,
+                                imageUrl: this.currentDrink.imageUrl,
+                                customization: this.selectedCustomization.name,
+                                price: this.selectedSize.price + this.selectedCustomization.price
+                            }
+
+                            userCart.push(drinks)
+
+                            localStorage.setItem(USERCARTKEY, JSON.stringify(userCart))
+
+                        }
+
+                    }
+
+                    window.location.replace('/menu.html')
+
+                }
+            }
+        }).mount('#app')
+    </script>
+
+</body>
+
+</html>

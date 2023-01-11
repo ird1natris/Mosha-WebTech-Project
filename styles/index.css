@@ -1,0 +1,135 @@
+::selection {
+    background-color: #fe0103;
+    color: #fff;
+}
+body {
+    font-family: 'Inter';
+    letter-spacing: 0.21em;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.flex-container {
+    display: flex;
+
+}
+
+.flex-container>div {
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+}
+
+.mosha {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.mosha-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.hero-title {
+    font-size: 6.5rem;
+    margin: 0;
+    line-height: 1;
+    font-family: 'ClashDisplay';
+    letter-spacing: 0.025em;
+    position: relative;
+    overflow: hidden;
+    height: 104px;
+}
+
+.description {
+    color: #000425;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    line-height: 1.5;
+    font-family: 'ClashDisplay';
+    margin: 0;
+}
+
+/* .hero-title::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+    width: 100%;
+    height: 100px;
+    content: '';
+    z-index: 2;
+    transform: translateY(100%);
+} */
+
+.mainbody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    padding-inline: 80px;
+}
+
+.cta-btn {
+    width: 220px;
+    height: 65px;
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    background-color: transparent;
+    border: 1px solid #1e1e1e;
+    font-size: 18px;
+    font-family: 'ClashDisplay', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    color: #000;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    position: relative;
+    scale: 0;
+}
+
+/* .cta-btn span {
+    position: absolute;
+    width: 0%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transition: all 0.25s ease;
+    background-color: #fe0103;
+    z-index: -1;
+} */
+
+/* .cta-btn:hover span {
+    width: 100%;
+} */
+
+.cta-btn:hover {
+    background-color: #d30b0b;
+    color: #fff;
+    border-color: #fe0103;
+}
+
+/* .cta-btn:active span {
+    background-color: #740808;
+} */
+
+.cta-btn:active {
+    border-color: #740808;
+    background-color: #000;
+}

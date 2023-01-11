@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1047/1047503.png">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Inter';
+            letter-spacing: 0.21em;
+        }
+
+        .flex-container {
+            display: flex;
+
+        }
+
+        .flex-container>div {
+            margin: 10px;
+            padding: 20px;
+            font-size: 30px;
+        }
+
+        .show-el {
+            display: block;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="nav" cell>
+
+        <table cellspacing="0" text-align="center" height="50" width="100%" style="text-align: center; padding: 20px;">
+            <td style="width: 5%;">
+                <a href="index.html" style="color: black; text-decoration-line: none;">Home</a>
+            </td>
+            <td style="width: 5%;">
+                <a href="menu.html" style="color: black; text-decoration-line: none;">Menu</a>
+            </td>
+            <td style="width: 7%;">
+                <a href="order.html" style="color: black; text-decoration-line: none;">My Order</a>
+            </td>
+
+
+            <td></td>
+            <td style="width: 7%;">
+                <a href="aboutus.html" style="color: black; text-decoration-line: underline;">About Us</a>
+            </td>
+            <td style="width: 5%;">
+                <a href="#"><img alt="Youtube" src="pictures/moshalogo.png" style="width: 75%;"></img></a>
+            </td>
+
+        </table>
+
+    </div>
+
+    <div class="content" style="background: linear-gradient(180.66deg, #FFC091 -30.93%, #FE0103 154.17%);;">
+        <table cellspacing="0" style="width: 100%;">
+            <td style="width: 55%;">
+                <h1 style="margin: 3%; font-size: 48px;">&nbsp ABOUT US</h1>
+                <hr color="black" style="margin: 3%;">
+                <div class="container"
+                    style="background-color: #FFFFFF; padding-top: 10%; padding-bottom: 10%; padding-left: 5%;margin: 3%; border-radius: 20px;">
+                    <a class="btn" id="payment"
+                        style="padding-bottom: 10%; color: black; text-decoration-line: none; font-size: 24px; cursor: pointer;">PAYMENT INFO</a><br><br><br>
+                    <a class="btn" id="contact"
+                        style="padding-bottom: 10%; color: black; text-decoration-line: none; font-size: 24px; cursor: pointer;">CONTACT</a><br><br><br>
+                    <a class="btn" id="feedback"
+                        style="padding-bottom: 5%; color: black; text-decoration-line: none; font-size: 24px; cursor: pointer;">FEEDBACK</a><br><br><br>
+                    <a class="btn" id="location"
+                        style="padding-bottom: 5%;  color: black; text-decoration-line: none; font-size: 24px; cursor: pointer;">LOCATION</a>
+                </div>
+            </td>
+
+            <td style="width: 40%;">
+                <div id="div1">
+                    <img id="hideme" src="pictures/moshashop.png" alt="moshashop" width="750">
+                    <div class="hide" id="contact-el" style="display: none;">
+                        <a style="font-size: 25px;">
+
+                            <div>
+                                <p>
+                                    Email: <br>
+                                    mosha.official@gmail.com
+                                </p>
+                            </div>
+
+                        </a>
+                    </div>
+                    <div class="hide" id="payment-el" style="display: none;">
+                        <a style="font-size: 25px;">
+
+<div>
+                                <p>
+                                    Transfer to: <br>
+                                    <br>
+                                    Aqil & Aqili Resources <br>
+                                    Muamalat <br>
+                                    0804-0003711710
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="hide" id="feedback-el" style="display: none; padding-left: 8%;">
+                        <a style="font-size: 32px;">
+
+                            <div
+                                style="background-color: #FFFFFF;padding: 10%; text-align: left; border-radius: 20px; width: 450px; height: 325px; top: 500px;">
+                                <form>
+                                    <label for="feedback"
+                                        style="font-size: 22px; font-family: katibeh; font-size: 32px;">Feedback</label><br><br>
+                                    <textarea id="feedback" name="feedback" rows="10" cols="50" placeholder=" type ..."
+                                        style="border-radius: 17px; font-family: katibeh; letter-spacing: 0.21em; font-size: 16px; padding-left: 2.5%; padding-top: 2.5%;"></textarea><br><br>
+                                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPuuR8CrmrsWbLQI2y8dC5iB7ch6gx3cnOCTV6bGuM_0IouA/viewform?usp=sf_link">
+                                        <input
+                                            type="button" value="Submit"
+                                            style="border-radius: 40px; width: 124px; height: 34px; text-align: center; border-width: 0;   border: 1px solid black; background-color: white;">
+                                    </a>
+                            </div>
+                            </form>
+                    </div>
+
+                    </a>
+                </div>
+                <div class="hide" id="location-el" style="display: none;">
+                    <a style="font-size: 32px;">
+
+                        <iframe
+                            src="https://www.google.com/maps/d/embed?mid=1rtpolOB_2r96wGMnHgQ1QepuXJOA8Jg&ehbc=2E312F"
+                            width="750" height="480"></iframe>
+
+                    </a>
+                </div>
+    </div>
+
+
+    </td>
+    </table>
+
+    </div>
+
+    <div class="flex-container" style="padding-top: 3%; width: 105%;">
+        <div style="width: 33%; text-align:right; font-size: 22px; line-height: 27px;">Follow Us On</div>
+        <div style="width: 33%; text-align:center;">
+        
+            <div class="icons">
+                <a href="https://www.instagram.com/gengmosha_/?hl=en"><img alt="Instagram" src="pictures/instagram.png" style="width: 10%;"></img></a>
+                <a href="https://www.facebook.com/BaristaMosha"><img alt="Facebook" src="pictures/facebook.png" style="width: 10%;"></img></a>
+                <a href="https://twitter.com/gengmosha_?lang=en"><img alt="Twitter" src="pictures/twitter.png" style="width: 10%;"></img></a>
+                <a href="https://t.me/+51Kd1TU6CYkxMDRl"><img alt="Telegram" src="pictures/telegram.png" style="width: 10%;"></img></a>
+            </div>
+
+        </div>
+        <div style="width: 40%; text-align:left; font-size: 16px; line-height: 19px; padding-top: 2%;">#GengMosha #KitaKanGeng</div>  
+      </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".btn").click(function () {
+                $("#hideme").hide();
+            });
+        });
+
+        $('.btn').click(function (e) {
+
+        });
+
+        $(document).ready(function () {
+
+            let paymentVisible = false;
+            let contactVisible = false;
+            let feedbackVisible = false;
+            let locationVisible = false;
+
+            function reset() {
+                $(".hide").hide()
+                $(".btn").removeClass("underline")
+
+                paymentVisible = false;
+                contactVisible = false;
+                feedbackVisible = false;
+                locationVisible = false;
+            }
+
+            function toggle(bool, el, parentEl) {
+                reset()
+                bool ? el.hide() : el.show()
+                bool ?
+
+parentEl.removeClass("underline") : parentEl.addClass("underline")
+                return !bool
+            }
+
+            $("#payment").click(function () {
+                paymentVisible = toggle(paymentVisible, $("#payment-el"), $("#payment"))
+            })
+
+            $("#contact").click(function () {
+                contactVisible = toggle(contactVisible, $("#contact-el"), $("#contact"))
+            })
+
+            $("#feedback").click(function () {
+                feedbackVisible = toggle(feedbackVisible, $("#feedback-el"), $("#feedback"))
+            })
+
+            $("#location").click(function () {
+                locationVisible = toggle(locationVisible, $("#location-el"), $("#location"))
+            })
+
+
+        });
+    </script>
+
+</body>
+
+</html>
